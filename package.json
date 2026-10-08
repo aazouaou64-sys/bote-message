@@ -1,0 +1,16 @@
+{
+  "name": "bote-message",
+  "version": "1.0.0",
+  "description": "Bot يرد على ميساجات Facebook Page و Instagram بـ Claude",
+  "type": "module",
+  "main": "src/server.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node src/server.js",
+    "chat": "node scripts/chat.js",
+    "test": "node --test test/*.test.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
+  }
+}
