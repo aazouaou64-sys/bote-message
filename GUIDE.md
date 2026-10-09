@@ -38,6 +38,18 @@
    - `DRY_RUN` = `true` (وضع التجربة: البوت يكتب الرد في الـ Logs برك وما يبعث والو)
 6. كي يكمل تاخذ رابط كيما `https://bote-message.onrender.com`.
 
+### 3 (ب). ولا على سيرفر تاعك (Ubuntu/Debian)
+1. من الماك: افتح **Terminal** واكتب `ssh root@<IP تاع السيرفر>`.
+2. اعمل مفتاح باش السيرفر يقرا الدوسي من GitHub:
+   `ssh-keygen -t ed25519 -N "" -q -C bote-message -f /root/.ssh/bote_deploy && cat /root/.ssh/bote_deploy.pub`
+   انسخ السطر لي يخرج، وحطو في GitHub ← الدوسي `bote-message` ← **Settings ← Deploy keys ← Add deploy key**.
+3. حمّل البوت وشعّلو:
+   `apt-get update -qq && apt-get install -y -qq git && GIT_SSH_COMMAND="ssh -i /root/.ssh/bote_deploy -o StrictHostKeyChecking=accept-new" git clone git@github.com:aazouaou64-sys/bote-message.git /opt/bote-message && bash /opt/bote-message/deploy/install.sh`
+   يسقسيك على مفتاح Claude، ومن بعد يعطيك **Callback URL** و **Verify token** تاع المرحلة 4.
+- باش تزيد إعداد (مثلا التوكن تاع Meta): `bash /opt/bote-message/deploy/set-env.sh META_PAGE_ACCESS_TOKEN`
+- باش تجيب آخر نسخة من البوت: `bash /opt/bote-message/deploy/update.sh`
+- باش تشوف واش راه يدير البوت: `journalctl -u bote-message -f`
+
 ## 4. اصنع تطبيق Meta
 **قبل كلش:** الإنستغرام لازم يكون **Professional (Business)** ومربوط بالباجة تاع فيسبوك. وفي الإنستغرام: **Settings ← Messages ← Connected tools ← Allow access to messages** = ON.
 

@@ -65,5 +65,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
     sendTyping,
     sendOrder: whatsappConfigured() ? sendOrderToWhatsapp : undefined,
   });
-  createServer(bot).listen(config.port, () => console.log(`[ready] listening on port ${config.port}`));
+  createServer(bot).listen(config.port, config.host, () =>
+    console.log(`[ready] listening on ${config.host}:${config.port}`),
+  );
 }

@@ -25,6 +25,8 @@ export function toInternational(phone) {
 
 export const config = {
   port: Number(env.PORT || 3000),
+  // 127.0.0.1 when a reverse proxy (Caddy) sits in front, see deploy/install.sh.
+  host: env.HOST || "0.0.0.0",
 
   // Meta
   verifyToken: env.META_VERIFY_TOKEN || "",
