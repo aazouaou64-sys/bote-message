@@ -44,7 +44,7 @@ fi
 say "Installing the bot's dependencies"
 cd "$APP_DIR"
 # Let "git pull" (deploy/update.sh) use the GitHub deploy key made during setup.
-if [ -f /root/.ssh/bote_deploy ]; then
+if [ -d .git ] && [ -f /root/.ssh/bote_deploy ]; then
   git config core.sshCommand "ssh -i /root/.ssh/bote_deploy -o StrictHostKeyChecking=accept-new"
 fi
 npm ci --omit=dev --no-audit --no-fund >/dev/null
@@ -60,7 +60,9 @@ set_default PORT 3000
 set_default DRY_RUN true
 set_default META_VERIFY_TOKEN "bote-$(head -c 12 /dev/urandom | od -An -tx1 | tr -d ' \n')"
 
-if ! grep -q '^ANTHROPIC_API_KEY=.' "$ENV_FILE"; then
+if ! grep -q '^ANTHROPIC_API_KEY=.' "$ENV_FILE" && ! { : </dev/tty; } 2>/dev/null; then
+  printf '\n\033[1;33m⚠️  No Claude key yet. Add it later with: bash %s/deploy/set-env.sh ANTHROPIC_API_KEY\033[0m\n' "$APP_DIR"
+elif ! grep -q '^ANTHROPIC_API_KEY=.' "$ENV_FILE"; then
   say "Paste your Claude key (sk-ant-...) and press Enter. Nothing shows while you paste; that is normal."
   read -rs KEY </dev/tty
   echo
